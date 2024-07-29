@@ -16,6 +16,7 @@ $("document").ready(function() {
             success: function(data) {
                 // console.log(data)
                 $("#msg").html(data);
+                $("#id").addClass("d-none")
             }
             
         });
@@ -29,7 +30,6 @@ $("document").ready(function() {
     // rertrive data
     function show_data(){
         let output;
-
         $.ajax({
             url: "retrive.php",
             method: "get",
@@ -38,7 +38,6 @@ $("document").ready(function() {
                 // console.log(data[0].Name)
                 for (let i=0; i<data.length; i++){
                     // console.log(data[i].Name)
-
                     output +="<tr><td>"+data[i].Id + "</td><td>" + data[i].Name + "</td><td>" + data[i].Email + "</td><td>" + data[i].Password + "</td><td><button id='btnedit' class='btn btn-primary mx-1' data-sid="+data[i].Id+">Edit</button><button id='btndel' class='btn btn-danger' data-sid="+ data[i].Id +">Delete</button></td></tr>"
                     // console.log(output)
 
@@ -94,7 +93,7 @@ $("document").ready(function() {
                 $("#emailid").val(x.Email);
                 $("#passwordid").val(x.Password);
                 $("#stid").attr("type", "text");
-
+                $("#id").removeClass("d-none")
             }
         });
         });
@@ -103,5 +102,34 @@ $("document").ready(function() {
     }
     edit();
 
-})
 
+    // $("#search").on("keyup", function(){
+    //     console.log("hello dsd");
+    // })
+ 
+})
+function myfun(){
+    let output;
+   let given =  $("#search").val();
+   let mydata = {name : given};
+   $.ajax({
+    url: "search.php",
+    method: "POST",
+    dataType: "JSON",
+    data: mydata,
+    success: function(data){
+        // console.log(data);
+        for (let i=0; i<data.length; i++){
+            // console.log(data[i].Name)
+            output +="<tr><td>"+data[i].Id + "</td><td>" + data[i].Name + "</td><td>" + data[i].Email + "</td><td>" + data[i].Password + "</td><td><button id='btnedit' class='btn btn-primary mx-1' data-sid="+data[i].Id+">Edit</button><button id='btndel' class='btn btn-danger' data-sid="+ data[i].Id +">Delete</button></td></tr>"
+            // console.log(output)
+
+        }
+        $("#tbody").html(output);
+
+    }
+   })
+
+}
+
+// myfun();
